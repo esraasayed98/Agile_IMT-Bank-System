@@ -13,6 +13,21 @@
  
 
 
+typedef struct Account
+{
+    char name[100];
+    char Address[100];
+    long long int NationalID;
+    int Age;
+    long long int Guardian_NationalID;
+    unsigned long long int BankAccountID;
+    char Account_Status[10];
+    long long int Balance;
+    unsigned long long int Password;
+
+    
+}BankAccount;
+
 
 /**************************************************/
 /***************Functions Prototypes***************/
@@ -20,15 +35,16 @@
 
 
 void CreateBankAccount();
-void Insert_Name();
-void InsertAddress();
-long long int  InsertNationalID();
-void InsertAge();
-void CreateBankAccountID();
-void Guardian();
-void AccountStatus(int closed);
-void AccountBalance();
-void CreatePassword();
+void Insert_Name( BankAccount* client_Account);
+void InsertAddress(BankAccount* client_Account);
+void  InsertNationalID(long long int* NationalID);
+void InsertAge(BankAccount* client_Account);
+void CreateBankAccountID(BankAccount* client_Account);
+void AccountStatus(BankAccount* client_Account,int closed);
+void AccountBalance(BankAccount* client_Account);
+void CreatePassword(BankAccount* client_Account);
+
+
 
 int main()
 {
@@ -42,64 +58,77 @@ int main()
 
 void CreateBankAccount()
 {
-    /*** 1. Full name****/
-    Insert_Name();
+    BankAccount NewAccount;
 
+    /*** 1. Full name****/
+    Insert_Name(&NewAccount );
+
+    // printf("Your Name: ");
+    // puts(NewAccount.name ); 
+    
     /*** 2. Full Address****/
-    InsertAddress();
+    InsertAddress(&NewAccount);
+
+    // printf("Your Address: ");
+    // puts(NewAccount.Address);
 
     /*** 3. Insert National ID ***/
-    InsertNationalID();
+    InsertNationalID(&NewAccount.NationalID);
+    // printf("%lld", NewAccount.NationalID);
 
     /*** 4. Insert Age ***/
-    InsertAge();
+    InsertAge(&NewAccount);
+    // printf("Age:%d",NewAccount.Age);
+    // printf("\nGuardin ID: %lld", NewAccount.Guardian_NationalID);
+
+   
 
     /*** 5. Insert Bank Account ID ***/
-    CreateBankAccountID();
+    CreateBankAccountID(&NewAccount);
+    printf("\nBank account ID: %lld ", NewAccount.BankAccountID);
+
 
     /*** 6. Insert Account Status ***/
-    AccountStatus(0);
+    AccountStatus(&NewAccount,0);
+    // printf("\nAccount Status is %s", NewAccount.Account_Status);
+
 
     /*** 7. Insert Account Balance ***/
-    AccountBalance();
+    AccountBalance(&NewAccount);
+    // printf("\nBalance in the Account: %lld", NewAccount.Balance);
 
     /*** 8. Create Random Password ***/
-    CreatePassword();
+    CreatePassword(&NewAccount);
+    printf("\nPassword: %lld ", NewAccount.Password);
 
-
-
-
-    
-
-    
-    
 
 
 }
 
-void Insert_Name(){
+void Insert_Name( BankAccount* client_Account){
 
-
-    char name[100];
+    
     int count = 0;  
 
 
     /*** check number of letters ***/
     while(count< 3)
     {
+        
+
         count = 0;
         printf("Enter at least your first four names: ");  
         
         // read name
-        fgets(name, sizeof(name), stdin);
+        fgets(client_Account->name , sizeof(client_Account->name), stdin);
 
         // print name
         // printf("Your Name: ");
-        // puts(name);   
+        // puts(client_Account->name );   
 
 
-        for(int i = 0; i < strlen(name); i++) {  
-            if(name[i] == ' ')  
+        for(int i = 0; i < strlen(client_Account->name); i++) {  
+            if(client_Account->name[i] == ' ')  
             {
             count++; 
             }
@@ -114,15 +143,15 @@ void Insert_Name(){
 
 }
 
-void InsertAddress()
+void InsertAddress(BankAccount* client_Account)
 {
-    char Address[100];
+    
     printf("Enter Your Full Address: ");
-    fgets(Address, sizeof(Address), stdin); 
+    fgets(client_Account->Address, sizeof(client_Account->Address), stdin); 
 
     // print name
     // printf("Your Address: ");
-    // puts(Address);
+    // puts(client_Account->Address);
 
 
     //Add address to List 
@@ -130,10 +159,9 @@ void InsertAddress()
 
 }
 
-long long int InsertNationalID()
+void InsertNationalID(long long int* NationalID)
 {
-
-    long long int NationalID;
+    
     int count=0;
 
     while (count < 14)
@@ -142,8 +170,9 @@ long long int InsertNationalID()
 
         printf("\nEnter A valid National ID: ");
         // printf("\nPlease Enter a valid National ID.");
-        scanf("%lld", &NationalID);
-        // printf("%lld", NationalID);
+        scanf("%lld", NationalID);
+
+        // printf("%lld", client_Account->NationalID);
         
         // check the length of the national ID
     
@@ -152,112 +181,114 @@ long long int InsertNationalID()
         - remove last digit from n in each iteration
         - increase count by 1 in each iteration
         **/
-       long long int n = NationalID;
+       long long int n = *NationalID
+;
         do {
             n /= 10;
             ++count;
         } while (n != 0);
     }
 
-    // printf("%lld", NationalID);
-        
-    return NationalID;
+  
+
  
 }
 
 
-void InsertAge()
+void InsertAge(BankAccount* client_Account)
 {
-    int age;
+  
     printf("Enter Age: ");
-    scanf("%d", &age);
-    // printf("\n%d",age);
+    scanf("%d", &client_Account->Age);
+    // printf("\n%d",client_Account->Age);
 
-    if (age <21)
+
+    if (client_Account->Age <21)
     {
+        
         printf("\nneed Guardian");
-        Guardian();
+        // Guardian NAtional ID
+        InsertNationalID(&client_Account->Guardian_NationalID);
+        // printf("\nGuardin ID: %lld", client_Account->Guardian_NationalID);
+
+    }
+    else
+    {
+        client_Account->Guardian_NationalID=0;
+
     }
 
 
 }
 
-void CreateBankAccountID()
+void CreateBankAccountID(BankAccount* client_Account)
 {
-    unsigned long long int BankAccountID;
+    
 
      // First digit must be non-zero:
      do
      {
          srand(time(0));//sets the starting point for producing random integers."acts as a seed"
-         BankAccountID = rand() % 10;
-     } while(BankAccountID == 0);
+         client_Account->BankAccountID = rand() % 10;
+     } while(client_Account->BankAccountID == 0);
      
      for(int i = 1; i < 10; i++)
      {
-         BankAccountID *= 10; 
-         BankAccountID += rand() % 10;
+         client_Account->BankAccountID *= 10; 
+         client_Account->BankAccountID += rand() % 10;
      }
-      printf("\nBank account ID: %lld ", BankAccountID);
+    //   printf("\nBank account ID: %lld ", client_Account->BankAccountID);
 
 
 }
 
-void Guardian()
+
+void AccountStatus(BankAccount* client_Account,int closed)
 {
-    // Guardian NAtional ID
-
-    long long int Guardian_ID = InsertNationalID();
-    printf("\nGuardin ID: %lld", Guardian_ID);
-
-}
-
-void AccountStatus(int closed)
-{
-   char Account_Status[10];
+   
 
     // Restriction 
     if (closed ==1){
  
-        strcpy(Account_Status, "Restricted");
+        strcpy(client_Account->Account_Status, "Restricted");
 
     }
     else
     {
         
-        strcpy(Account_Status, "Active");
+        strcpy(client_Account->Account_Status, "Active");
 
     }
-    printf("\nAccount Status is %s", Account_Status);
+    // printf("\nAccount Status is %s", client_Account->Account_Status);
 
 }
 
-void AccountBalance()
+void AccountBalance(BankAccount* client_Account)
 {
-    long long int Balance;
+    
     printf("\nAdd Account Balance: ");
-    scanf("%lld", &Balance);
-    // printf("\nBalance in the Account: %lld", Balance);
+    scanf("%lld", &client_Account->Balance);
+    // printf("\nBalance in the Account: %lld", client_Account->Balance);
 }
-void CreatePassword()
+void CreatePassword(BankAccount* client_Account)
 {
+    
 
     /***Create 10 digit Random Password***/
-     unsigned long long int Password;
-
+     
      // First digit must be non-zero:
      do
      {
-         srand(1);//sets the starting point for producing random integers. "acts as a seed"
-         Password = rand() % 10;
-     } while(Password == 0);
+        //  srand(17);//sets the starting point for producing random integers. "acts as a seed"
+         client_Account->Password = rand() % 10;
+     } while(client_Account->Password == 0);
      
      for(int i = 1; i < 10; i++)
      {
-         Password *= 10; 
-         Password += rand() % 10;
+         client_Account->Password *= 10; 
+         client_Account->Password += rand() % 10;
      }
-      printf("\nPassword: %lld ", Password);
+    //   printf("\nPassword: %lld ", client_Account->Password);
 
 
 }
