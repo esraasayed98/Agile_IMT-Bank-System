@@ -11,22 +11,24 @@
 enum AC_status{Active, Restricted, Closed};
 
 
-typedef struct client{
-    char  Full_Name[100];
-    char  Full_Adreess[100];
-    char  National_ID[14];
-    int   Age;
-    int  Bank_Account_ID;
-    char  Guardian[100];
-    char  Guardian_National_ID[14];
-    enum  AC_status Account_Status;
-    int Balance;
-    char  Password[100];
+typedef struct Account
+{
+    char name[100];
+    char Address[100];
+    long long int NationalID;
+    int Age;
+    long long int Guardian_NationalID;
+    unsigned long long int BankAccountID;
+    char Account_Status[10];
+    long long int Balance;
+    unsigned long long int Password;
+    
 
-}Client;
+    
+}BankAccount;
 
 typedef struct listnode{
-    Client  Data;
+    BankAccount  Data;
     struct listnode * Next;
 
 }ListNode;
@@ -44,17 +46,17 @@ typedef struct ListLinkedBased
 
 
 void List_voidInit(List *pl);
-void List_voidInsertList(int Position, List *pl, Client Element);
-void List_voidReplaceList(int Position, List *pl, Client Element);
-void List_voidDeleteList(int Position, List *pl, Client * Element);
-void List_voidRetriveList(int Position, List *pl, Client * Element);
+void List_voidInsertList(int Position, List *pl, BankAccount Element);
+void List_voidReplaceList(int Position, List *pl, BankAccount Element);
+void List_voidDeleteList(int Position, List *pl, BankAccount * Element);
+void List_voidRetriveList(int Position, List *pl, BankAccount * Element);
 int  List_intIsEmpty(List *pl);
 int  List_intIsFull(List *pl);
 int  List_intSize(List *pl);
 // void List_voidPrintList(List*pl);
 void List_voidDestroyList(List *pl);
 
-
+void List_voidReplaceBYID(long long int ID, List *pl, BankAccount Element);
 
 /***********************************************************************/
 /****************************Functions Implementations******************/
@@ -66,7 +68,7 @@ void List_voidInit(List *pl){
 }
 
 
-void List_voidInsertList(int Position, List *pl, Client  Element){
+void List_voidInsertList(int Position, List *pl, BankAccount  Element){
     /*create new node and intialize its data*/
     ListNode* pn = (ListNode *)malloc(sizeof(ListNode));
     pn->Data = Element;
@@ -94,7 +96,7 @@ void List_voidInsertList(int Position, List *pl, Client  Element){
 }
 
 
-void List_voidReplaceList(int Position, List *pl, Client Element){
+void List_voidReplaceList(int Position, List *pl, BankAccount Element){
     /*create a new pointer of list node and iterate until reaching the position that i want*/
     ListNode * pn = pl->Head;
     for(int i = 0; i < Position-1; i++ ){
@@ -106,7 +108,25 @@ void List_voidReplaceList(int Position, List *pl, Client Element){
 }
 
 
-void List_voidDeleteList(int Position, List *pl, Client * Element){
+void List_voidReplaceBYID(long long int ID, List *pl, BankAccount Element){
+    /*create a new pointer of list node and iterate until reaching the position that i want*/
+    ListNode * pn = pl->Head;
+
+    for(int i = 0;  (pn->Data.BankAccountID !=ID ) ; i++ ){
+       if (i > pl->Size)
+       {
+           printf("Account Doesn't Exist!!!");
+           break;
+       }
+        pn = pn->Next;
+    }
+
+    /*return the data that i want*/
+    pn->Data = Element;
+}
+
+
+void List_voidDeleteList(int Position, List *pl, BankAccount * Element){
     ListNode * pn = pl->Head;
 
     /*corner case : Deletion from the first plcae*/
@@ -141,13 +161,29 @@ void List_voidDeleteList(int Position, List *pl, Client * Element){
 }
 
 
-void List_voidRetriveList(int Position, List *pl, Client * Element){
+void List_voidRetriveList(int Position, List *pl, BankAccount * Element){
     ListNode * pn = pl->Head;
     for(int i = 0; i < Position; i++ ){
         pn = pn->Next;
     }
     *Element = pn->Data;
 }
+
+void List_voidRetriveBYID(long long int ID, List *pl, BankAccount * Element){
+    ListNode * pn = pl->Head;
+
+    
+    for(int i = 0;  (pn->Data.BankAccountID !=ID ) ; i++ ){
+       if (i>pl->Size)
+       {
+           printf("Account Doesn't Exist!!!");
+           break;
+       }
+        pn = pn->Next;
+    }
+    *Element = pn->Data;
+}
+
 
 int  List_intIsEmpty(List *pl){
     return pl->Head == NULL;

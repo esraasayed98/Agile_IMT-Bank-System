@@ -10,23 +10,9 @@
 #include <stdlib.h>
 #include <string.h>  
 #include <time.h>
- 
+#include "ListLinkedBased.h"
 
 
-typedef struct Account
-{
-    char name[100];
-    char Address[100];
-    long long int NationalID;
-    int Age;
-    long long int Guardian_NationalID;
-    unsigned long long int BankAccountID;
-    char Account_Status[10];
-    long long int Balance;
-    unsigned long long int Password;
-
-    
-}BankAccount;
 
 
 /**************************************************/
@@ -34,7 +20,8 @@ typedef struct Account
 /**************************************************/
 
 
-void CreateBankAccount();
+BankAccount CreateBankAccount();
+void AccountsInit();
 void Insert_Name( BankAccount* client_Account);
 void InsertAddress(BankAccount* client_Account);
 void  InsertNationalID(long long int* NationalID);
@@ -44,19 +31,20 @@ void AccountStatus(BankAccount* client_Account,int closed);
 void AccountBalance(BankAccount* client_Account);
 void CreatePassword(BankAccount* client_Account);
 
+List L;
 
+// int main()
+// {
+//     printf("==============================================================================================\n");
+//     printf("==============================Add New Bank Account ===========================================\n");
+//     // CreateBankAccount();
 
-int main()
-{
-    printf("==============================================================================================\n");
-    printf("==============================Add New Bank Account ===========================================\n");
-    CreateBankAccount();
+//     AccountsInit();
+//     return 0;
 
-    return 0;
+// }
 
-}
-
-void CreateBankAccount()
+BankAccount CreateBankAccount()
 {
     BankAccount NewAccount;
 
@@ -100,6 +88,8 @@ void CreateBankAccount()
     /*** 8. Create Random Password ***/
     CreatePassword(&NewAccount);
     printf("\nPassword: %lld ", NewAccount.Password);
+
+    return NewAccount;
 
 
 
@@ -164,7 +154,7 @@ void InsertNationalID(long long int* NationalID)
     
     int count=0;
 
-    while (count < 14)
+    while (count != 14)
     {
         count=0;
 
@@ -187,6 +177,7 @@ void InsertNationalID(long long int* NationalID)
             n /= 10;
             ++count;
         } while (n != 0);
+        // printf("%d",count);
     }
 
   
@@ -293,3 +284,59 @@ void CreatePassword(BankAccount* client_Account)
 
 }
 
+void AccountsInit()
+{
+    // static int position=0;
+    BankAccount client1, client2, client3;
+
+    //client1
+    strcpy(client1.name ,"Mahmoud Hassan Mohamed Mahmoud");
+    strcpy(client1.Address ,"A 15 st");
+    client1.NationalID=12345678912340;
+    client1.Age = 24;
+    client1.Guardian_NationalID = 0;
+    client1.BankAccountID=1234567891;
+    strcpy(client1.Account_Status ,"Active");
+    client1.Balance=2500000;
+    client1.Password=1023456789;
+
+    //client2
+    strcpy(client2.name ,"Ramez Essam");
+    strcpy(client2.Address ,"B 30 st");
+    client2.NationalID=12345678912340;
+    client2.Age = 24;
+    client2.Guardian_NationalID = 0;
+    client2.BankAccountID=1234500891;
+    strcpy(client2.Account_Status ,"Active");
+    client2.Balance=2500000;
+    client2.Password=1023450089;
+
+    //client3
+    strcpy(client3.name ,"Esraa Sayed");
+    strcpy(client3.Address ,"c 30 st");
+    client3.NationalID=12345678912340;
+    client3.Age = 18;
+    client3.Guardian_NationalID = 12005678912340;
+    client3.BankAccountID=1000000000;
+    strcpy(client3.Account_Status ,"Active");
+    client3.Balance=2500000;
+    client3.Password=1023450089;
+
+    
+   
+
+    List_voidInit(&L);
+    // insert three clients to the list
+    List_voidInsertList(L.Size,&L,client1);
+    List_voidInsertList(L.Size,&L,client2);
+    List_voidInsertList(L.Size,&L,client3);
+
+    // printf("%d", L.Size);
+
+    
+
+
+
+    
+   
+}
