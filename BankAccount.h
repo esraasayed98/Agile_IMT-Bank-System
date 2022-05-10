@@ -31,7 +31,7 @@ void AccountStatus(BankAccount* client_Account,int closed);
 void AccountBalance(BankAccount* client_Account);
 void CreatePassword(BankAccount* client_Account);
 
-List L;
+List L;//List of accounts
 
 // int main()
 // {
@@ -98,16 +98,31 @@ BankAccount CreateBankAccount()
 void Insert_Name( BankAccount* client_Account){
 
     
-    int count = 0;  
+    int count=0;  
+      
+    // printf("Enter at least your first four names: ");
 
+    fgets(client_Account->name , sizeof(client_Account->name), stdin);
+
+        // print name
+        // printf("Your Name: ");
+        // puts(client_Account->name );   
+
+
+        for(int i = 0; i < strlen(client_Account->name); i++) {  
+            if(client_Account->name[i] == ' ')  
+            {
+            count++; 
+            }
+              
+        } 
 
     /*** check number of letters ***/
     while(count< 3)
     {
         
-
+        printf("Enter at least your first four names: ");
         count = 0;
-        printf("Enter at least your first four names: ");  
         
         // read name
         fgets(client_Account->name , sizeof(client_Account->name), stdin);
@@ -124,6 +139,12 @@ void Insert_Name( BankAccount* client_Account){
             }
               
         }  
+
+        
+
+         
+        
+
     // printf("Total number of spaces in the name: %d", count);
         
     }
@@ -296,6 +317,7 @@ void AccountsInit()
     client1.Age = 24;
     client1.Guardian_NationalID = 0;
     client1.BankAccountID=1234567891;
+    
     strcpy(client1.Account_Status ,"Active");
     client1.Balance=2500000;
     client1.Password=1023456789;
@@ -317,7 +339,7 @@ void AccountsInit()
     client3.NationalID=12345678912340;
     client3.Age = 18;
     client3.Guardian_NationalID = 12005678912340;
-    client3.BankAccountID=1000000000;
+    client3.BankAccountID=1000000000; 
     strcpy(client3.Account_Status ,"Active");
     client3.Balance=2500000;
     client3.Password=1023450089;

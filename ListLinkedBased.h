@@ -27,6 +27,7 @@ typedef struct Account
     
 }BankAccount;
 
+
 typedef struct listnode{
     BankAccount  Data;
     struct listnode * Next;
@@ -38,6 +39,9 @@ typedef struct ListLinkedBased
     ListNode * Head;
     int Size;
 }List;
+
+
+
 
 
 /***********************************************************************/
@@ -116,13 +120,15 @@ void List_voidReplaceBYID(long long int ID, List *pl, BankAccount Element){
        if (i > pl->Size)
        {
            printf("Account Doesn't Exist!!!");
-           break;
+        //    break;
        }
         pn = pn->Next;
+        // printf("%d",i); /////////why not increasing 
     }
 
     /*return the data that i want*/
     pn->Data = Element;
+    // printf("%s", pn->Data.Account_Status);
 }
 
 
