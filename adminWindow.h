@@ -9,11 +9,12 @@
 #include <stdlib.h>
 #include "BankAccount.h"
 #include <conio.h>
+// #include <curses.h>
 
 
 
 
-int display_login();
+void display_login();
 int validate_username_password(char username[], char password[]);
 int create_new_account();
 void open_existing_account();
@@ -29,19 +30,17 @@ void Deposit(BankAccount* account);
 
 // int main(int argc, char *argv[]) {
 
-// 	//Admins data
-	
+
 // 	//clients data
 // 	AccountsInit();
 
+// 	//admin data
+// 	AdminInit();
+
+
+// 	display_login();
 	
-// 	int fail = display_login();
 	
-// 	while(fail){
-// 		display_login();
-// 	}
-	
-// 	display_admin_window();
 // 	return 0;
 // }
 
@@ -49,7 +48,17 @@ void Deposit(BankAccount* account);
 
 
 int validate_username_password(char username[], char password[]){
-	return 1;
+	AdminListNode * temp = LA.Head;
+
+	while(temp){
+		if(strcmp(temp->Data.username, username) == 0 && strcmp(temp->Data.password, password) == 0){
+			return 1;
+		}
+		temp = temp->Next;
+		
+	}
+
+	return 0;
 }
 
 int create_new_account(){
@@ -160,35 +169,35 @@ void display_admin_window(){
 
 
 
-int display_login(){
+void display_login(){
+	
 	char username[20];
 	char password[16];
 	printf("Enter username: ");
 	scanf("%s", username);
 	printf("\n");
 	printf("Enter password: ");
-	scanf("%s", password);
-
+	//scanf("%s", password);
 	//display hidden password
-	// int i=0;
-    // char ch;
 
-	//  while(password[i] != '\0')
-	//  {
-	// 	ch = getch();
-	// 	password[i] = ch;
-	// 	i++;
-	// 	printf("*");
+    int i=0;
 
+    char ch;
 
-	//  }
+    for(i=0;i<10;i++){
+  		ch = getch();
+  		password[i] = ch;
+  		ch = '*' ;
+  		printf("%c",ch);
+    } 
 
 	if (validate_username_password(username, password)){
-		return 0;
+		display_admin_window();
 	}
 	else{
-		printf("Wrong username or password, try again.");
-		return 1;
+		system("cls");
+		printf("Wrong username or password, try again.\n");
+		display_login();
 	}
 	
 	

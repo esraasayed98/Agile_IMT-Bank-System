@@ -51,16 +51,14 @@ void Welcomepage()
         printf("\n ********************************************************************************************************************\n\n");
         
 
-       //Admins data
-
-       //clients data
+       	//clients data
 	    AccountsInit();
-        int fail = display_login();
-        while(fail){
-		display_login();
-        }
-        
-        display_admin_window();
+
+	    //admin data
+	    AdminInit();
+
+
+	    display_login();
 
    }
    else
