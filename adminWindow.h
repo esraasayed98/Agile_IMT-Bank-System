@@ -184,12 +184,13 @@ void display_login(){
 
     char ch;
 
-    for(i=0;i<10;i++){
+    for(i=0;i<9;i++){
   		ch = getch();
   		password[i] = ch;
   		ch = '*' ;
   		printf("%c",ch);
-    } 
+    }
+	password[i] = '\0'; 
 
 	if (validate_username_password(username, password)){
 		display_admin_window();
