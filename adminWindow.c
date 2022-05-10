@@ -12,12 +12,6 @@
 /*       Version: v01                            */
 /*************************************************/
 
-typedef struct admin
-{
-	char username[100];
-	char password[100];
-
-}BankAdmin;
 
 int display_login();
 int validate_username_password(char username[], char password[]);
@@ -35,27 +29,18 @@ void Deposit();
 
 int main(int argc, char *argv[]) {
 
-	// BankAdmin Admin1, Admin2 , Admin3;
-
-	// Admin1.username="Ramez";
-	// Admin1.password="100456";
-	
-	// Admin2.username="Mahoud";
-	// Admin2.password="123006";
-	
-	// Admin3.username="Esraa";
-	// Admin3.password="123400";
-	
-	///to be handled make linked list to connect the admins 
 
 	//clients data
 	AccountsInit();
 
-	
+	//admin data
+	AdminInit();
+
+
 	int fail = display_login();
 	
 	while(fail){
-		display_login();
+		fail = display_login();
 	}
 	
 	display_admin_window();

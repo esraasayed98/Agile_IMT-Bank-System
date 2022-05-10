@@ -11,6 +11,7 @@
 #include <string.h>  
 #include <time.h>
 #include "ListLinkedBased.h"
+#include "LinkedListAdmin.h"
 
 
 
@@ -22,6 +23,7 @@
 
 BankAccount CreateBankAccount();
 void AccountsInit();
+void AdminInit();
 void Insert_Name( BankAccount* client_Account);
 void InsertAddress(BankAccount* client_Account);
 void  InsertNationalID(long long int* NationalID);
@@ -32,6 +34,7 @@ void AccountBalance(BankAccount* client_Account);
 void CreatePassword(BankAccount* client_Account);
 
 List L;
+AdminList LA;
 
 // int main()
 // {
@@ -339,4 +342,35 @@ void AccountsInit()
 
     
    
+}
+
+void AdminInit()
+{
+    Admin admin1, admin2, admin3;
+
+
+    //admin1
+    strcpy(admin1.username, "ramez_essam");
+    strcpy(admin1.password, "123456789");
+
+    //admin2
+    strcpy(admin2.username, "esraa_sayed");
+    strcpy(admin2.password, "123456789");
+
+    //admin3
+    strcpy(admin2.username, "mahmoud_hassan");
+    strcpy(admin2.password, "123456789");
+
+    //init admin list
+    AdminList_voidInit(&LA);
+
+
+    AdminList_voidInsertList(LA.Size,&LA,admin1);
+    AdminList_voidInsertList(LA.Size,&LA,admin2);
+    AdminList_voidInsertList(LA.Size,&LA,admin3);
+
+
+    
+
+
 }
